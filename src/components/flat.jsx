@@ -6,6 +6,10 @@ class Flat extends Component {
     selectFlat(index);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.selected !== nextProps.selected;
+  }
+
   render() {
     const { name, imageUrl, price, priceCurrency } = this.props.flat;
     const { selected } = this.props;
