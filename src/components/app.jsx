@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 
-import FlatList from './flat_list';
-import Marker from './marker';
 import flats from '../../data/flats';
 import bootstrapURLKeys from '../../data/key';
+
+import FlatList from './flat_list';
+import Marker from './marker';
 
 class App extends Component {
   constructor(props) {
@@ -12,36 +13,44 @@ class App extends Component {
 
     this.state = {
       selectedFlat: flats[0],
+      seededFlats: flats,
       zoom: 11
     };
   }
 
   selectFlat = (index) => {
-    this.setState({
-      selectedFlat: flats[index]
-    });
+    this.setState({ selectedFlat: flats[index] });
   };
 
   center() {
     const { selectedFlat } = this.state;
-    return {
+    return ({
       lat: selectedFlat.lat,
       lng: selectedFlat.lng
-    };
+    });
   }
 
   render() {
-    const { selectedFlat, zoom } = this.state;
+    const { selectedFlat, seededFlats, zoom } = this.state;
+
     return (
       <div>
-        <FlatList flats={flats} selectedFlat={selectedFlat} selectFlat={this.selectFlat} />
+        <FlatList
+          flats={seededFlats}
+          selectedFlat={selectedFlat}
+          selectFlat={this.selectFlat}
+        />
         <div className="map-container">
           <GoogleMapReact
             bootstrapURLKeys={{ key: bootstrapURLKeys }}
             defaultCenter={this.center()}
             defaultZoom={zoom}
           >
-            <Marker lat={selectedFlat.lat} lng={selectedFlat.lng} text="selected" />
+            <Marker
+              lat={selectedFlat.lat}
+              lng={selectedFlat.lng}
+              text="My Marker"
+            />
           </GoogleMapReact>
         </div>
       </div>
